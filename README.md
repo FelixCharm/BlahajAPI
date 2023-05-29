@@ -29,7 +29,7 @@ This endpoint fetches the data of a random image in the database.
 {"author":"N/A","description":null,"id":17,"title":"vMEkeP","url":"https://blahaj.transgirl.dev/images/vMEkeP"}
 ```
 
-- Database error / Image not found (`HTTP status 404`)
+Database error / Image not found (`HTTP status 404`)
 
 ```
 // No images in database
@@ -48,7 +48,7 @@ This endpoint returns the image data of the specified filename.
 
 No JSON data will be returned, only the image will be returned.
 
-- Image not found (`HTTP status 404`)
+Image not found (`HTTP status 404`)
 
 ```
 // Image doesn't exist
