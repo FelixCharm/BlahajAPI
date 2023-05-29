@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Blahaj API</title>
+    <style>
+        body {
+            background-color: #FFF1E6;
+            color: #333;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding-left: 5px;
+        }
+
+        h1 {
+            color: #FF6B6B;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        p {
+            margin: 20px auto;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            line-height: 1.2;        
+        }
+
+        .flag {
+            width: 180px;
+            height: 180px;
+            margin: 10px auto;
+            display: block;
+        }
+
+        .container {
+            margin-top: 50px;
+            margin-left: 10px;
+        }
+
+        .info {
+            padding-left: 30px;
+        }
+
+        code {
+            background-color: #FFD2C5;
+            padding: 5px;
+            display: inline-block;
+        }
+
+        .code {
+            margin-top: 0;
+            background-color: #FFD2C5;
+            padding: 10px;
+            display: inline-block;
+        }
+
+        .use {
+            margin-top: 2px;
+        }
+
+        a {
+            color: #FF6B6B;
+            text-decoration: none;
+        }
+
+        hr{
+            margin-top: 0;
+            border: 1px solid #FFD2C5;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Blahaj API</h1>
+    <img class="flag" src="/static/blahaj_pride.png" alt="Trans Pride Blahaj">
+    <p style="text-align: center;">
+        The Blahaj API allows you to fetch random images of the beloved and adorable Blahaj shark!<br>
+        Find us on <a href="https://github.com/FelixCharm/BlahajAPI">GitHub</a>
+    </p>
+    <div class="container">
+        <h2>API Endpoints:</h2>
+        <code class="endpoint"><strong>GET /images/random</strong></code>
+        <hr>
+        <div class="info">
+            <p class="use">
+                Fetches the data of a random image in the database.<br>
+            </p>
+            <h4>Possible Responses<hr></h4>
+            <p>
+                The API should almost always return the HTTP status code <code>200 OK</code> however if there was a problem connecting to the backend database, the API will respond with the HTTP status code <code>404 Not Found</code><br>
+                <strong>Image Found <code>HTTP status 200</code></strong>
+                <pre class="code">
+// Image found
+{"author":"N/A","description":null,"id":17,"title":"vMEkeP","url":"https://blahaj.transgirl.dev/images/vMEkeP"}
+                </pre>
+            </p>
+            <p>
+                <strong>Database error / Image not found <code>HTTP status 404</code></strong>
+                <pre class="code">
+// No images in database
+{'message': 'No images available.'}
+                </pre>
+            </p>
+        </div>
+
+        <code class="endpoint"><strong>GET /images/&lt;filename&gt;</strong></code>
+        <hr>
+        <div class="info">
+            <p class="use">
+                Returns the image data of the specified filename.
+            </p>
+            <h4>Possible Responses<hr></h4>
+            <p>
+                If the image exists the API will respond with the HTTP status code <code>200 OK</code> if the image doesn't exist, the API will respond with the HTTP status code <code>404 Not Found</code><br>
+                <strong>Image Found <code>HTTP status 200</code></strong>
+                <pre class="code">
+// No JSON data will be returned, only the image will be returned
+                </pre>
+            </p>
+            <p>
+                <strong>Image not found <code>HTTP status 404</code></strong>
+                <pre class="code">
+// Image doesn't exist
+{'message': 'No such image.'}
+                </pre>
+            </p>
+        </div>
+
+            <br>
+            <br>
+
+            <p>
+                To use the API, send a GET request to the specific endpoint and handle the response accordingly.
+                You can integrate the API into your applications to display random Blahaj images or retrieve specific images by filename.
+            </p>
+            <p>
+                For example, to fetch a random Blahaj image, you can use the following python in your application:
+            </p>
+            <pre class="code">
+data = requests.get("https://blahaj.transgirl.dev/images/random").json()
+url = data["url"]
+image = requests.get(url)
+# Handle image result</pre>
+
+<p>
+    The Blahaj API uses publically available images that are scraped from the <a href="https://www.reddit.com/r/blahaj">r/blahaj</a> reddit, however if you wish to have your image removed please <a href="https://transgirl.dev/contact">Contact Me</a>
+</p>
+
+    </div>
+</body>
+</html>
