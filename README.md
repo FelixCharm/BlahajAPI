@@ -24,14 +24,14 @@ This endpoint fetches the data of a random image in the database.
 
 **Image Found (`HTTP status 200`)**
 
-```json
+```
 // Image found
 {"author":"N/A","description":null,"id":17,"title":"vMEkeP","url":"https://blahaj.transgirl.dev/images/vMEkeP"}
 ```
 
 - Database error / Image not found (`HTTP status 404`)
 
-```json
+```
 // No images in database
 {'message': 'No images available.'}
 ```
@@ -50,7 +50,7 @@ No JSON data will be returned, only the image will be returned.
 
 - Image not found (`HTTP status 404`)
 
-```json
+```
 // Image doesn't exist
 {'message': 'No such image.'}
 ```
