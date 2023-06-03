@@ -4,16 +4,17 @@ import random
 import os
 
 app = Flask(__name__)
-mysql = mysql.connector.connect(
-    host='localhost',
-    user='root',
-    password=os.environ['mysql_password'],
-    database='blahaj'
-)
-
 
 def create_table_if_not_exists():
-    cursor = mysql.cursor()
+
+    conn = mysql.connector.connect(
+        host='localhost',
+        user='root',
+        password=os.environ['mysql_password'],
+        database='blahaj'
+    )
+
+    cursor = conn.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS images (
             id INT PRIMARY KEY AUTO_INCREMENT,
@@ -23,11 +24,26 @@ def create_table_if_not_exists():
             description TEXT
         )
     """)
-    mysql.commit()
+    conn.commit()
 
 @app.route('/')
 def hello_world():
     return current_app.send_static_file('index.html')
+
+@app.route('/statistics')
+def get_image_statistics():
+
+    conn = mysql.connector.connect(
+        host='localhost',
+        user='root',
+        password=os.environ['mysql_password'],
+        database='blahaj'
+    )
+
+    cursor = conn.cursor()
+    cursor.execute('SELECT COUNT(*) FROM images')
+    count = cursor.fetchone()[0]
+    return jsonify({'image_count': count})
 
 @app.route('/images/<filename>')
 def serve_image(filename):
@@ -39,7 +55,15 @@ def serve_image(filename):
 
 @app.route('/images/random')
 def get_random_image():
-    cursor = mysql.cursor(dictionary=True)
+
+    conn = mysql.connector.connect(
+        host='localhost',
+        user='root',
+        password=os.environ['mysql_password'],
+        database='blahaj'
+    )
+
+    cursor = conn.cursor(dictionary=True)
     cursor.execute('SELECT COUNT(*) FROM images')
     count = cursor.fetchone()['COUNT(*)']
     if count > 0:

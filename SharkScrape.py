@@ -9,7 +9,8 @@ import string
 import mysql.connector
 import hashlib
 
-mysql = mysql.connector.connect(
+global conn
+conn = mysql.connector.connect(
     host='localhost',
     user='root',
     password=os.environ['mysql_password'],
@@ -55,7 +56,8 @@ reddit = praw.Reddit(client_id=client_id,
                      ratelimit_seconds=600)
 
 def create_table_if_not_exists():
-    cursor = mysql.cursor()
+    global conn
+    cursor = conn.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS images (
             id INT PRIMARY KEY AUTO_INCREMENT,
@@ -65,7 +67,7 @@ def create_table_if_not_exists():
             description TEXT
         )
     """)
-    mysql.commit()
+    conn.commit()
 
 def md5sum(filename):
     with open(filename, 'rb', buffering=0) as f:
@@ -163,11 +165,13 @@ def download_and_save(hashes):
 
 def add_to_database(file_name, author, description):
 
+    global conn
+
     url = f"https://blahaj.transgirl.dev/images/{file_name}"
 
-    cursor = mysql.cursor()
+    cursor = conn.cursor()
     cursor.execute(f"INSERT INTO images (url, title, author, description) VALUES (%s, %s, %s, %s)", (url, file_name, author, description))
-    mysql.commit()
+    conn.commit()
     cursor.close()
 
 def main():
@@ -191,5 +195,12 @@ def main():
 
 
 if __name__ == "__main__":
+    conn = mysql.connector.connect(
+        host='localhost',
+        user='root',
+        password=os.environ['mysql_password'],
+        database='blahaj'
+    )
+
     create_table_if_not_exists()
     main()
